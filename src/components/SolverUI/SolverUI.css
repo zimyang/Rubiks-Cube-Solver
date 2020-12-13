@@ -1,0 +1,294 @@
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: lightgrey;
+}
+
+#centerControls{
+  position: absolute;
+  left: 15;
+  max-width: 300px;
+  width: 50%;
+  height: 100%;
+  padding-right: 4.5%!important;
+}
+#centerControls2{
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  padding-right: 0px;
+}
+
+a > img {
+    height: 50%;
+}
+.solverLoading{
+    display: none;
+    position: absolute;
+    width:95%;
+    height:85%;
+    padding-top:10%;
+    border-radius: .25rem;
+    text-align: center;
+    background-color: lightgrey;
+    color: #343a40;
+    margin: 2px;
+    z-index: 99;
+}
+.solverUIWrapper{
+    width:100%;
+    height:100%;
+    color: #343a40;
+    overflow: hidden;
+    border-radius: .25rem;
+}
+
+.warningPopupSolver{
+    visibility: hidden;
+    position: absolute;
+    border-radius: .25rem;
+    background-color: rgba(25,25,25,.7);
+    border: 2px solid rgb(52, 58, 64);
+    z-index: 100001;
+    color: lightgrey;
+    text-align: center;
+    height:100%;
+    width:30vw;
+    margin-bottom:100%;
+}
+
+.solverMessage{
+    margin:auto;
+    padding: 10px;
+}
+
+.solverLeaveStay{
+    color: lightgrey;
+    transition: background-color .4s ease;
+    background-color: rgba(0,0,255,.10);
+    border-radius: .25rem;
+    border: 2px solid #007bff;
+    font-size: 1rem;
+    height: 22.5%;
+    width: 40%;
+    padding-left: 6px;
+    padding-right: 6px;
+    white-space: nowrap;
+    margin: 5px;
+    pointer-events: auto;
+  }
+
+
+  .solverInterface{
+    float: right;
+    width: 100%;
+    max-width: 300px;
+    color: lightgrey;
+    height: 75%;
+    border-radius: .25rem;
+  }
+
+  .solverButtonDiv{
+    height:50%;
+    width:50%;
+    display: inline-block;
+    padding-bottom: 2%;
+  }
+
+  .solverInterface.exitDiv{
+    display: block;
+  }
+
+  .solverButton{
+    height: 100%;
+    width: 100%;
+    pointer-events: auto;
+    border: none;
+    transition: background-color .4s ease;
+    background-color: rgba(0,0,255,.10);
+    color: lightgray;
+    border-radius: .25rem;
+    border: 2px solid #007bff;
+    padding: 0px;
+  }
+
+  .solverButton:hover,.exitButton:hover,.solverLeaveStay:hover{
+    background-color: rgba(0,0,255,.5)!important;
+  }
+
+  .solverButton:active,.exitButton:active,.solverLeaveStay:active{
+    background-color: rgba(0,0,255,.25)!important;
+  }
+  
+  .solverButton > p{
+    height:1rem;
+    padding: 0%;
+    margin: 0%;
+    top: 0;
+    display: inline-block;
+  }
+
+  .solverMoves{
+    position: absolute;
+    height: 100%;
+    width:98%;
+    max-width: 400px;
+    overflow-y: scroll;
+    border-radius: .25rem;
+    transition: border .4s ease;
+    border: 2px solid rgb(52, 58, 64);
+    z-index: 100000;
+    pointer-events: auto;
+    bottom:0;
+    left: 0;
+  }
+
+  .solverMovesMobile{
+    position: absolute;
+    height: 100%;
+    width:98%;
+    max-width: 400px;
+    overflow-y: scroll;
+    border-radius: .25rem;
+    border: 2px solid rgb(52, 58, 64);
+    z-index: 100000;
+    pointer-events: auto;
+    bottom:0;
+  }
+
+  .algoMoves{
+    position: absolute;
+    height: 80%;
+    width: 98%;
+    overflow-y: scroll;
+    border-radius: .25rem;
+    border: 2px solid rgb(52, 58, 64);
+    /* background-color: (#343a40).5; */
+    margin-top: 5px;
+    z-index: 100000;
+    pointer-events: auto;
+    bottom:0;
+  }
+
+  .solverMoves,.solverMovesMobile > div{
+    display: inline-block;
+    color: #007bff;
+  }
+
+  .algoMoves > div{
+    display: inline-block;
+    color: #007bff;
+  }
+
+  .solveMoveDiv{
+      margin:2px;
+      border: 1px solid transparent;
+      border-radius: .25rem;
+      width: 2rem;
+      height: 2rem;
+      pointer-events: auto;
+      display: inline-block;
+      transition: background-color .4s ease;
+      background: rgba(0, 0, 0, .7);
+  }
+
+  .jumper{
+    height: 20px;
+  }
+
+  .solveMoveDiv:hover{
+    background-color: rgba(100, 100, 100, .2);
+  }
+
+  .solveButtonImage>img{
+    background-image:radial-gradient(circle,lightgrey 5%, #343a40);
+    border-radius: .3rem;
+    padding: 2px;
+    margin-right: 5px;
+}
+
+  .solveButtonImage>img:hover{
+    filter: invert(0%);
+    background-image:radial-gradient(circle,lightblue 5%, #343a40);
+    border-radius: .3rem;
+    }
+
+  .solveButtonImage>img:active{
+    filter: invert(5%);
+    background-color: none;
+  }
+
+.nextSolveIndex{
+  background-color: rgba(100, 100, 100,.5);
+  color: lightgray;
+}
+
+.targetSolveIndex{
+    border-radius: .25rem;
+}
+
+.jumperButtons{
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  z-index: 100000000000;
+  pointer-events: auto;
+}
+
+.jumper{
+  display: inline-block;
+  color: lightgrey;
+  font-size: .75rem;
+  width:45%;
+}
+
+#patterns{
+  width: 98%;
+  margin-top: 2px;
+  border-radius: .25rem;
+  border: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.previousMove,.nextMove{
+  border-radius: .25rem;
+  border: 1px solid lightgrey;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.exitButton {
+  color: lightgrey;
+  transition: background-color .4s ease;
+  background-color: rgba(211,211,211,.1);
+  border-radius: .25rem;
+  border: 2px solid lightgrey;
+  font-size: 1rem;
+  white-space: nowrap;
+  pointer-events: auto;
+  padding:0px;
+  width:100%;
+  height: 100%;
+}
+
+#blankExit {
+  width: 45%;
+  border: none;
+  background: transparent;
+  padding:0px;
+  margin: 4px;
+}
+
+.rewindOne,.rewindAll{
+  padding-right: 1%;
+}
+
+.playOne,.fastforward{
+  padding-left: 1%;
+}

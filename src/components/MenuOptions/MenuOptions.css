@@ -1,0 +1,105 @@
+.menuOptionsWrapper{
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    max-height: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+.leftButton{
+    color: lightgrey;
+    transition: background-color .4s ease;
+    background-color:rgba(0,0,255,.10);
+    border-radius: .25rem;
+    border: 2px solid #007bff;
+    font-size: 1rem;
+    height: 30%;
+    white-space: nowrap;
+    pointer-events: auto;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    min-width: 125px;
+}
+
+
+
+.leftButton:hover,.rightButton:hover{
+    background-color: rgba(0,0,255,.5);
+}
+
+.leftButton:active,.rightButton:active{
+    background-color: rgba(0,0,255,.25);
+}
+
+.rightButton{
+    position: relative;
+    right: 0;
+    color: lightgrey;
+    transition: background-color .4s ease;
+    background-color:rgba(0,0,255,.10);
+    border-radius: .25rem;
+    border: 2px solid #007bff;
+    font-size: 1rem;
+    height: 30%;
+    white-space: nowrap;
+    pointer-events: auto;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    min-width: 125px;
+}
+
+.invis,.invis:hover,.invas:active{
+    background-color:transparent;
+    border-color:transparent; 
+    pointer-events: none;
+}
+
+.hoverDisabled{
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .algoList{
+    max-width: 300px;
+    position: absolute;
+    bottom: 0px;
+    width:100%;
+    margin-right:0px;
+    overflow-y: scroll;
+    height: 100%;
+    min-height: 100px;
+    overflow-x: hidden;
+    color: #343a40!important;
+    border: 2px solid rgb(52, 58, 64);
+    border-radius: .25rem;
+    pointer-events: auto;
+    padding-left: 8px;
+    padding-top: 8px;
+    padding-right: 8px;
+}
+
+.algoButton{
+    width: 100%;
+    color: #007bff;
+    border: none;
+    /* border-bottom: 1px solid grey; */
+    transition: all .4s;
+    background: rgba(0, 0, 0, .7);
+    border-radius: .25rem;
+    margin-bottom: 8px;
+}
+
+.algoButton:hover{
+    background-color: rgba(100, 100, 100, .2);
+}
+
+.algoActive{
+    background-color: rgba(100, 100, 100,.5);
+    color: lightgray;
+}

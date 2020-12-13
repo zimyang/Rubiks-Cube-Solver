@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/icon.png" />
+    <link rel="icon" sizes="16x16 32x32 64x64" href="%PUBLIC_URL%/icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+          name="description"           
+          content="Rubik's Cube Simulator Program">
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon.png">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>RubiksProgram</title>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body style="background-color: black;">
+      <style>
+        body {
+          overflow: hidden;
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+              -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome, Opera and Firefox */
+        }
+        .nav-fix-for-edge{
+          display:"flex";
+        }
+
+        button:focus {outline:0;}
+
+        .redoUndo{
+          -webkit-background-size: 90% 90%;           /* Safari 3.0 */
+            -moz-background-size: 90% 90%;           /* Gecko 1.9.2 (Firefox 3.6) */
+              -o-background-size: 90% 90%;           /* Opera 9.5 */
+                  background-size: 90% 90%;           /* Gecko 2.0 (Firefox 4.0) and other CSS3-compliant browsers */
+        }
+
+        #closeBtn{
+          color: lightgray;
+        }
+
+        .popup-content{
+          border: none!important;
+          background: transparent!important;
+          box-shadow: none!important;
+        }
+
+        .popup-arrow {
+          display: none!important;
+        }
+
+        .popupDiv {
+          position: fixed;
+          top:10%;
+          left:50%;
+          width:75%;  /* adjust as per your needs */
+          margin-left:-37.5%;   /* negative half of width above */
+          
+          background-color: rgba(0,0,100,.8);
+          border-radius: .25rem;
+          border: 2px solid #007bff;
+          color: lightgray;
+        }
+
+        .popupDiv p{
+          text-align: left;
+          padding-right: 5px;
+          padding-left: 5px;
+        }
+
+        .shadeBackground {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #dddddd;
+          opacity: .5;
+        }
+        @media (max-width: 640px){
+          #fullscreenBtn {
+            display: none;
+          }
+        }
+        @media (max-width: 399px){
+          #fullscreenBtn {
+            display: none;
+          }
+        }
+        @media (max-width:420px) {
+          .popupDiv{
+            width:90%!important;
+            /* display: none; */
+          }
+          #infoBtn{
+            padding-left: 10px!important;
+            padding-right: 10px!important;
+          }
+          .navbar{
+            padding: 1rem .5rem!important;
+          }
+          #divInfo{
+            display: none;
+          }
+          #settings{
+            display: none;
+          }
+        }
+
+        
+        #fullscreenBtn,#triggerBtn,#infoBtn{
+          font-size: 1rem;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        
+       
+        .canvas{
+          overflow: hidden;
+        }
+        #moveInput{
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+              -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome, Opera and Firefox */
+          min-width: max-content;
+        }
+  
+      </style>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function() {
+          let isFull = false;
+          let element = document.body;
+          $("#fullscreenBtn").on("click" , (e) =>{
+            let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+            let exitMethod = document.exitFullScreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+            let buttonType = e.target.value;
+            if (requestMethod) { // Native full screen.
+                !isFull ? (e.target.textContent = "Exit",requestMethod.call(element)) : (e.target.textContent = "Fullscreen",exitMethod.call(document));
+                isFull=!isFull;
+            } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+                let wscript = new ActiveXObject("WScript.Shell");
+                if (wscript !== null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+          });
+
+          document.addEventListener('mousedown', function (event) {
+            if (event.detail > 1) {
+              event.preventDefault();
+              // of course, you still do not know what you prevent here...
+              // You could also check event.ctrlKey/event.shiftKey/event.altKey
+              // to not prevent something useful.
+            }
+          }, false);
+
+          document.addEventListener('fullscreenchange', exitHandler);
+          document.addEventListener('webkitfullscreenchange', exitHandler);
+          document.addEventListener('mozfullscreenchange', exitHandler);
+          document.addEventListener('MSFullscreenChange', exitHandler);
+
+          function exitHandler() {
+            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+              $("#fullscreenBtn").text("Fullscreen");
+              isFull=false;
+            }
+          } 
+        });
+    </script>
+    <div class="canvas" style="background-size: cover; background-position: center; background: radial-gradient(#343a40, #000000);">
+    </div>
+  </body>
+</html>
