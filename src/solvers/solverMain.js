@@ -4,7 +4,9 @@ import moveFuncs from '../cubeFunctions/move';
 
 function generateAllSolveMoves(state,rubiksObject){
     let beforeObject = rubiksObject.map(e=>[...e]);
+    
     let tempState = {...state}, solvedSet = "";
+
     let currentIndex = null;
     let previousIndex = null;
     let indexOccurence = 0;
@@ -16,126 +18,146 @@ function generateAllSolveMoves(state,rubiksObject){
       tempState.currentFunc = "Solving";
       tempState.rubiksObject = rubiksObject.map(e=>[...e]);
     }
+    // console.log("init tempState rubiksObject: ", tempState.mySolve);
     
-
-    while(tempState.currentFunc==="Solving"){
+    // while(tempState.currentFunc==="Solving"){
       
-      if(!tempState.moveSet || !tempState.moveSet.length) {
-        // console.log("tempState:")
-        // console.log(tempState.rubiksIndex);
-        currentIndex=tempState.rubiksIndex;
-        if(currentIndex===previousIndex) indexOccurence = indexOccurence+1;
-        else indexOccurence = 0;
-        if(tempState.solveState>=1) threeByThreeCounter++;
-        let moves;
-
-        moves = solver(tempState.solveState,tempState.rubiksObject,tempState.cubeDimension,moveFuncs.moveStringToArray,
-          tempState.solveMoves,tempState.rubiksIndex,tempState.middles,tempState.edges,tempState.corners);
-        if (!moves) moves = {};
-        if(moves.moveSet && moves.moveSet[0]==='stop'){
-          if(tempState.currentFunc==="Solving"){
-            moves.solveMoves = tempState.solveMoves + ` ${moves.moveSet[0]}`;
-            moves.moveSet.pop();
-          }
-          else moves.moveSet.pop();
-        }
+    //   if(!tempState.moveSet || !tempState.moveSet.length) {
+    //     currentIndex=tempState.rubiksIndex;
+    //     if(currentIndex===previousIndex) indexOccurence = indexOccurence+1;
+    //     else indexOccurence = 0;
+    //     if(tempState.solveState>=1) threeByThreeCounter++;
+    //     let moves;
         
-        if(moves.moveSet){
-          let temp = [];
-          for(let i = 0; i<moves.moveSet.length; i++){
+    //     moves = solver(tempState.solveState,tempState.rubiksObject,tempState.cubeDimension,moveFuncs.moveStringToArray,
+    //       tempState.solveMoves,tempState.rubiksIndex,tempState.middles,tempState.edges,tempState.corners);
+        
+    //     // console.log("moves:", moves.moveSet)
+        
+    //     if (!moves) moves = {};
+    //     if(moves.moveSet && moves.moveSet[0]==='stop'){
+    //       if(tempState.currentFunc==="Solving"){
+    //         moves.solveMoves = tempState.solveMoves + ` ${moves.moveSet[0]}`;
+    //         moves.moveSet.pop();
+    //       }
+    //       else moves.moveSet.pop();
+    //     }
+        
+    //     if(moves.moveSet){
+    //       let temp = [];
+    //       for(let i = 0; i<moves.moveSet.length; i++){
             
-            if(moves.moveSet[i]===''||moves.moveSet[i]===' '||moves.moveSet[i][0]==="N"||moves.moveSet[i]==="'");
-            else temp.push(moves.moveSet[i]);
-          }
-          moves.moveSet = temp;
-        }
-        if(threeByThreeCounter>500) {
-          error = true;
-          //console.log(tempState.solveState);
-          moves.currentFunc="None";
-        }
-        else if((indexOccurence>10 && tempState.solveState<1)||counter>10000||(moves.moveSet&&moves.moveSet[0]==='error')) {
+    //         if(moves.moveSet[i]===''||moves.moveSet[i]===' '||moves.moveSet[i][0]==="N"||moves.moveSet[i]==="'");
+    //         else temp.push(moves.moveSet[i]);
+    //       }
+    //       moves.moveSet = temp;
+    //     }
+    //     if(threeByThreeCounter>500) {
+    //       error = true;
+    //       //console.log(tempState.solveState);
+    //       moves.currentFunc="None";
+    //     }
+    //     else if((indexOccurence>10 && tempState.solveState<1)||counter>10000||(moves.moveSet&&moves.moveSet[0]==='error')) {
 
-          console.log(
-            "Solve State: ",tempState.solveState,
-            "\nPiece attempts: ",indexOccurence,
-            "\nPiece: ",tempState.rubiksObject[tempState.middles[tempState.rubiksIndex]]
-          );
+    //       console.log(
+    //         "Solve State: ",tempState.solveState,
+    //         "\nPiece attempts: ",indexOccurence,
+    //         "\nPiece: ",tempState.rubiksObject[tempState.middles[tempState.rubiksIndex]]
+    //       );
           
-          console.log(moves);
-          error = true;
-          //console.log(JSON.stringify({beforeObject}));
-          moves.currentFunc="None";
-        }
-        if(moves.currentFunc && moves.currentFunc==="None") solvedSet = tempState.solveMoves;
-        counter++;
-        tempState = {...tempState,...moves};
-        previousIndex=currentIndex;
-      }
-      else{
-        let cD = tempState.cubeDimension;
-        let blockMoveLog = tempState.blockMoveLog;
-        let moveLog = tempState.moveLog;
-        let solveMoves = tempState.solveMoves;
-        let rubiksObject = tempState.rubiksObject;
-        let end = tempState.end;
-        let solveState = tempState.solveState;
-        let moveData = moveFuncs.parseMoveArray(tempState.moveSet); // generates data for next move
-        let obj = cube.rotateCubeFace(...moveData,blockMoveLog,moveLog,solveMoves,end,solveState);
-        obj.rubiksObject = cube.rotateFace(obj.face,obj.turnDirection,obj.cubeDepth,obj.isMulti,cD,rubiksObject);
-        tempState = {...tempState,...obj};
-      }
-    }
-    let splitSet = solvedSet.split(" ");
-    if(splitSet[0][0]==="N"||splitSet[0][0]==="'") splitSet.shift();
-    let moveSet = []
-    splitSet.forEach(e => e[e.length-1]==="'"? moveSet.push(e.replace("'","")):moveSet.push(e+"'"));
+    //       error = true;
+          
+    //       moves.currentFunc="None";
+    //     }
+    //     if(moves.currentFunc && moves.currentFunc==="None") solvedSet = tempState.solveMoves;
+    //     counter++;
+    //     tempState = {...tempState,...moves};
+    //     previousIndex=currentIndex;
+    //   }
+    //   else{
+    //     let cD = tempState.cubeDimension;
+    //     let blockMoveLog = tempState.blockMoveLog;
+    //     let moveLog = tempState.moveLog;
+    //     let solveMoves = tempState.solveMoves;
+    //     let rubiksObject = tempState.rubiksObject;
+    //     let end = tempState.end;
+    //     let solveState = tempState.solveState;
+    //     let moveData = moveFuncs.parseMoveArray(tempState.moveSet); // generates data for next move
+    //     let obj = cube.rotateCubeFace(...moveData,blockMoveLog,moveLog,solveMoves,end,solveState);
+        
+    //     obj.rubiksObject = cube.rotateFace(obj.face,obj.turnDirection,obj.cubeDepth,obj.isMulti,cD,rubiksObject);
+    //     tempState = {...tempState,...obj};
+    //     // console.log("solveMoves: ", tempState.solveMoves);
+    //   }
+    // }
 
-    for(let i = 0; i<moveSet.length; i++){
-      if(moveSet[i]===''||moveSet[i]===' '||moveSet[i][0]==="N"||moveSet[i]==="'"||moveSet[i]===undefined){
-        moveSet.splice(i,1);
-      }
-    }
+    // let splitSet = solvedSet.split(" ");
+    // if(splitSet[0][0]==="N"||splitSet[0][0]==="'") splitSet.shift();
+    // let moveSet = []
+    // splitSet.forEach(e => e[e.length-1]==="'"? moveSet.push(e.replace("'","")):moveSet.push(e+"'"));
 
-    let maxDepth = Math.floor(tempState.cubeDimension/2);
-    moveSet = moveSet.map(move=>{
-      if(move==="stop'") return move;
-      //console.log(move);
-      let dataMove = moveFuncs.convertMoveToData(move);
-      if(parseInt(dataMove[2])>maxDepth&&!dataMove[3]){
-        //console.log("Found over reaching move: [ " + move + " ]");
-        dataMove[2]=(tempState.cubeDimension-dataMove[2])+1
-        if(parseInt(dataMove[0])===0) dataMove[0] = 3;
-        else if(parseInt(dataMove[0])===1) dataMove[0] = 5;
-        else if(parseInt(dataMove[0])===2) dataMove[0] = 4;
-        else if(parseInt(dataMove[0])===3) dataMove[0] = 0;
-        else if(parseInt(dataMove[0])===4) dataMove[0] = 2;
-        else if(parseInt(dataMove[0])===5) dataMove[0] = 1;
-        dataMove[1]===0?dataMove[1]=-1:dataMove[1]=0;
+    // for(let i = 0; i<moveSet.length; i++){
+    //   if(moveSet[i]===''||moveSet[i]===' '||moveSet[i][0]==="N"||moveSet[i]==="'"||moveSet[i]===undefined){
+    //     moveSet.splice(i,1);
+    //   }
+    // }
+    
+    // // console.log("moveSet: ", moveSet);
 
-        //console.log("Converted to: [ " + moveFuncs.convertDataToMove(dataMove) + " ]");
-        return moveFuncs.convertDataToMove(dataMove);
-      }
-      return moveFuncs.convertDataToMove(dataMove);
-    })
+    // let maxDepth = Math.floor(tempState.cubeDimension/2);
+    // moveSet = moveSet.map(move=>{
+    //   if(move==="stop'") return move;
 
-    let moveSetLength = 0;
-    while(moveSet.length!==moveSetLength){
-      moveSetLength = moveSet.length;
-      for(let i = 0; i < moveSet.length-2; i++){
-        if(moveSet[i].substring(0,3)===moveSet[i+1].substring(0,3) && moveSet[i].length!==moveSet[i+1].length){
-          moveSet.splice(i,2);
-        }
-      }
-      for(let i = 0; i < moveSet.length-2; i++){
-        if(moveSet[i]===moveSet[i+1] && moveSet[i]===moveSet[i+2]){
-          if(moveSet[i].length===3){moveSet[i]+="'"}
-          else{moveSet[i]=moveSet[i].substring(0,3)}
-          moveSet.splice(i+1,2);
-        }
-      }
-    }
+    //   let dataMove = moveFuncs.convertMoveToData(move);
+    //   if(parseInt(dataMove[2])>maxDepth&&!dataMove[3]){
+    //     //console.log("Found over reaching move: [ " + move + " ]");
+    //     dataMove[2]=(tempState.cubeDimension-dataMove[2])+1
+    //     if(parseInt(dataMove[0])===0) dataMove[0] = 3;
+    //     else if(parseInt(dataMove[0])===1) dataMove[0] = 5;
+    //     else if(parseInt(dataMove[0])===2) dataMove[0] = 4;
+    //     else if(parseInt(dataMove[0])===3) dataMove[0] = 0;
+    //     else if(parseInt(dataMove[0])===4) dataMove[0] = 2;
+    //     else if(parseInt(dataMove[0])===5) dataMove[0] = 1;
+    //     dataMove[1]===0?dataMove[1]=-1:dataMove[1]=0;
+    //     // console.log(moveFuncs.convertDataToMove(dataMove))
+        
+    //     return moveFuncs.convertDataToMove(dataMove);
+    //   }
+    //   return moveFuncs.convertDataToMove(dataMove);
+    // })
 
+   
+    // // tempState.moveSet = ["B'", "D", "R2", "D", "L", "F'", "U2", "R'", "D", "B", "L'", "F", "R2", "B", "R2", "U2", "F'", "U2", "F", "D2", "F2"]
+    // // console.log("Moves.moveSet: ", tempState.moveSet)
+
+    // let moveSetLength = 0;
+    // while(moveSet.length!==moveSetLength){
+    //   moveSetLength = moveSet.length;
+    //   for(let i = 0; i < moveSet.length-2; i++){
+    //     if(moveSet[i].substring(0,3)===moveSet[i+1].substring(0,3) && moveSet[i].length!==moveSet[i+1].length){
+    //       moveSet.splice(i,2);
+    //     }
+    //   }
+    //   for(let i = 0; i < moveSet.length-2; i++){
+    //     if(moveSet[i]===moveSet[i+1] && moveSet[i]===moveSet[i+2]){
+    //       if(moveSet[i].length===3){moveSet[i]+="'"}
+    //       else{moveSet[i]=moveSet[i].substring(0,3)}
+    //       moveSet.splice(i+1,2);
+    //     }
+    //   }
+    // }
+    /**
+     * Key point
+     * 之后的moveSet符合需求
+     */
+
+    
+    var moveSet = tempState.mySolve;
+    
+    console.log("moveSet: ", moveSet);
+
+    console.log("1");
+    
     if(moveSet[0]==="stop'"&&moveSet[1]==="stop'"&&moveSet.length===2) moveSet = [];
   
     // let invalidAlignment = 0;

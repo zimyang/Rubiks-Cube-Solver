@@ -30,10 +30,10 @@ const moveFuncs = {
 
     convertDataToMove : function(data) {
         let move = "";
-        let face = ['F','U','R','B','L','D']
+        let face = ['F','U','R','B','L','D'];
         move+=data[2].toString().length<2?"0".concat(data[2]):data[2];
         move+=(data[3]?face[data[0]].toLowerCase():face[data[0]])
-        data[1]===-1?move+="":move+="'"
+        data[1]===-1?move+="":move+="'";
         return move;
     },
 
@@ -51,21 +51,125 @@ const moveFuncs = {
     // Converts move string to move array
     // handle move short hand characters. ex: fx => 01Fx 02Fx; x = "" or "'" or "2"
     moveStringToArray : function (str) {
+       
+        // let tempArray = str.split(" ");
+        // let moveArray = [];
+        // if(str.length===0) return moveArray;
+        // // Run through split string and create duplicates where needed
+        // // Handle other short hands
+
+        // for(let i = 0; i < tempArray.length;i++){
+        //     if(tempArray[i].length === 4 && tempArray[i].slice(3,4)==="2") {
+        //         let tempMove = tempArray[i].slice(0,3);
+        //         moveArray.push(tempMove);
+        //         moveArray.push(tempMove);
+        //         console.log("if: ", tempMove)
+
+        //     }
+        //     else {
+        //       if(tempArray[i].substr(-1)==="2")
+        //       {
+        //         let len = tempArray[i].length;
+        //         let tempstep = tempArray[i].substring(0,len-1);
+        //         var tempMove;
+        //         if(!isNaN(parseInt(tempArray[i].substr(0,1))))
+        //         {
+        //           tempMove = "0" + tempstep;
+        //         }
+        //         else
+        //         {
+        //           tempMove = "01" + tempstep;
+        //         }
+
+        //         moveArray.push(tempMove);
+        //         moveArray.push(tempMove);
+        //       }
+        //       else
+        //       {
+        //         let tempMove = "01" + tempArray[i];
+        //         moveArray.push(tempMove);
+        //       }
+        //     }
+        // }
+        // return moveArray;
         let tempArray = str.split(" ");
         let moveArray = [];
 
         // Run through split string and create duplicates where needed
         // Handle other short hands
-        for(let i = 0; i < tempArray.length;i++){
-            if(tempArray[i].length === 4 && tempArray[i].slice(3,4)==="2") {
-                let tempMove = tempArray[i].slice(0,3);
-                moveArray.push(tempMove);
-                moveArray.push(tempMove);
+
+
+        for(let i=0; i< tempArray.length;i++)
+        {
+          let tempMove = "";
+          var repeat = 1;
+          // if(typeof(tempArray[i].substr(-1,1)) === 'number')
+          if(!isNaN(parseInt(tempArray[i].substr(-1,1))))
+          {
+            repeat = parseInt(tempArray[i].substr(-1,1))
+            // console.log("repeat: ", repeat);
+          }
+          if(tempArray[i].indexOf("w")!==-1)
+          {
+            /**
+             * 包含 w
+             */
+            let tempMove1;
+            let tempMove2;
+            if(tempArray[i].indexOf("'")!==-1)
+            {
+              /**
+               * 包含 '
+               */
+              tempMove1 = "01" + tempArray[i].substr(0,1) + "'";
+              tempMove2 = "02" + tempArray[i].substr(0,1) + "'";
             }
-            else {
-                moveArray.push(tempArray[i]);
+            else
+            {
+              /**
+               * 不包含 '
+               */
+              tempMove1 = "01" + tempArray[i].substr(0,1);
+              tempMove2 = "02" + tempArray[i].substr(0,1);
             }
+            for(let j=0;j<repeat;j++)
+            {
+              // console.log(j);
+              moveArray.push(tempMove1)
+              moveArray.push(tempMove2);
+            }
+          }
+          else
+          {
+            /**
+             * 不包含 w
+             */
+            if(tempArray[i].indexOf("'")!==-1)
+            {
+              tempMove = "01" + tempArray[i].substr(0,1) + "'";
+            }
+            else
+            {
+              tempMove = "01" + tempArray[i].substr(0,1);
+            }
+            for(let j=0;j<repeat;j++)
+            {
+              // console.log(j);
+              moveArray.push(tempMove)
+            }
+            // moveArray.push(tempMove)
+          }
         }
+        // for(let i = 0; i < tempArray.length;i++){
+        //     if(tempArray[i].length === 4 && tempArray[i].slice(3,4)==="2") {
+        //         let tempMove = tempArray[i].slice(0,3);
+        //         moveArray.push(tempMove);
+        //         moveArray.push(tempMove);
+        //     }
+        //     else {
+        //         moveArray.push(tempArray[i]);
+        //     }
+        // }
         return moveArray;
     },
 

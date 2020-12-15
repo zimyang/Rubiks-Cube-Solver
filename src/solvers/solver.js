@@ -23,22 +23,31 @@ const CONSTANTS = {
 function solver(solveState,rubiksObject,cubeDimension,moveStringToArray,solveMoves,rubiksIndex,middles,edges,corners){
     switch(solveState){
         case CONSTANTS.SOLVE_MIDDLES:
+            // console.log("CONSTANTS.SOLVE_MIDDLES")
             return solveMiddles(rubiksObject,cubeDimension,moveStringToArray,rubiksIndex,middles);
         case CONSTANTS.SOLVE_EDGES:
+            // console.log("CONSTANTS.SOLVE_EDGES")
             return solveEdges(rubiksObject,cubeDimension,moveStringToArray,edges,rubiksIndex);
         case CONSTANTS.SOLVE_WHITE_CROSS:
+            // console.log("CONSTANTS.SOLVE_WHITE_CROSS")
             return solveWhiteCross(rubiksObject,cubeDimension,moveStringToArray,edges);
         case CONSTANTS.SOLVE_WHITE_CORNERS:
+            // console.log("CONSTANTS.SOLVE_WHITE_CORNERS")
             return solveWhiteCorners(rubiksObject,cubeDimension,moveStringToArray,corners);
         case CONSTANTS.SOLVE_MIDDLE_EDGES:
+            // console.log("CONSTANTS.SOLVE_MIDDLE_EDGES")
             return solveMiddleEdges(rubiksObject,moveStringToArray,edges,cubeDimension);
         case CONSTANTS.SOLVE_YELLOW_CROSS:
+            // console.log("CONSTANTS.SOLVE_YELLOW_CROSS")
             return solveYellowCross(rubiksObject,moveStringToArray,edges,cubeDimension);
         case CONSTANTS.ALIGN_YELLOW_CROSS:
+            // console.log("CONSTANTS.ALIGN_YELLOW_CROSS")
             return alignYellowCross(rubiksObject,moveStringToArray,edges,cubeDimension);
         case CONSTANTS.ALIGN_YELLOW_CORNERS:
+            // console.log("CONSTANTS.ALIGN_YELLOW_CORNERS")
             return alignYellowCorners(rubiksObject,cubeDimension,moveStringToArray,corners);
         case CONSTANTS.SOLVE_YELLOW_CORNERS:
+            // console.log("CONSTANTS.SOLVE_YELLOW_CORNERS")
             return solveYellowCorners(rubiksObject,cubeDimension,moveStringToArray,solveMoves,corners);
         default:
             console.log("invalid solve state");

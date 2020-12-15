@@ -50,6 +50,9 @@ class SideSolverControls extends Component {
     render() {
         let prevSet = this.props.state.prevSet;
         let moveSet = this.props.state.moveSet;
+        let mySolve = this.props.state.mySolve;
+        console.log("prevSet: ", prevSet)
+        console.log("mySolve: ", mySolve)
 
         let previousMove =
             <div className="previousMove">
@@ -75,16 +78,16 @@ class SideSolverControls extends Component {
             <div className="nextMove">
                 {moveSet[0] && typeof (moveSet[0][0]) === 'string' && moveSet[0] !== "'" ?
                     moveSet[0] === "stop'" ?
-                        moveSet[1] ?
-                            moveSet[1] === moveSet[2] ?
-                                moveSet[1].replace(`0`+moveSet[1][1],moveSet[1][1]).replace("'", "") + 2
+                    moveSet[1] ?
+                    moveSet[1] === moveSet[2] ?
+                    moveSet[1].replace(`0`+moveSet[1][1],moveSet[1][1]).replace("'", "") + 2
                                 :
                                 moveSet[1].replace(`0`+moveSet[1][1],moveSet[1][1])
                             :
                             "-"
                         :
                         moveSet[0] === moveSet[1] ?
-                            moveSet[0].replace(`0`+moveSet[0][1],moveSet[0][1]).replace("'", "") + 2
+                        moveSet[0].replace(`0`+moveSet[0][1],moveSet[0][1]).replace("'", "") + 2
                             :
                             moveSet[0].replace(`0`+moveSet[0][1],moveSet[0][1])
                     :

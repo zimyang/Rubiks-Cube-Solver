@@ -47,13 +47,11 @@ const MenuOptions = props => {
         function optionClick(e){
             if(props.state.currentFunc==="None") {
                 if(e.target.id==="ColorPicker"){
-                    
                     props.setState({activeMenu:e.target.id,isValidConfig:true});
                     props.beginColorPicker();
                 }
                 else if(e.target.id==="Solver"){
                     props.setState({activeMenu:e.target.id},props.beginSolve());
-                    
                 }
                 else if(e.target.id==="Algorithms"){
                     console.log(props.state.currentFunc);

@@ -109,6 +109,8 @@ class App extends Component {
     solveState : -1,      // Dictates progression of solve function
     solveMoves : "",      // Keeps track of moves used during solve
     solvedSet: [],
+    mySolve: [],
+    bark: false,
     solvedSetIndex: 0,
     facePosX : null,
     facePosY : null,
@@ -336,78 +338,6 @@ class App extends Component {
     this.setState({colorPicked:color});
   }
 
-  // getCubeSequence = () => {
-  //   const XLine = new THREE.Vector3( 1, 0, 0 );//X轴正方向
-  //   const XLineAd = new THREE.Vector3( -1, 0, 0 );//X轴负方向
-  //   const YLine = new THREE.Vector3( 0, 1, 0 );//Y轴正方向
-  //   const YLineAd = new THREE.Vector3( 0, -1, 0 );//Y轴负方向
-  //   const ZLine = new THREE.Vector3( 0, 0, 1 );//Z轴正方向
-  //   const ZLineAd = new THREE.Vector3( 0, 0, -1 );//Z轴负方向
-
-  //   let cubes = [...this.state.cubes]
-  //   let seq = [];
-  //   let us = [18,19,20,9,10,11,0,1,2];
-  //   for(let i = 0; i<us.length;i++)
-  //   {
-  //     let ui = getCubeByIndex(us[i]);
-  //     seq.push(getFaceColorByVector(ui, YLine))
-  //   }
-  //   // R
-  //   // F
-  //   // D
-  //   // L
-  //   // B
-
-    
-  // }
-
-  // getCubeByIndex = (index, rotateNum) => {
-  //   let tempIndex = index;
-  //   let tempRotateNum = rotateNum;
-  //   while(rotateNum>0)
-  //   {
-  //     if(parseInt(index/9)==0){
-  //       if(index%3==0){
-  //         index += 2;
-  //       }else if(index%3==1){
-  //         index += 10;
-  //       }else if(index%3==2){
-  //         index += 18;
-  //       }
-  //     }else if(index%3==2){
-  //       if(parseInt(index/9)==0){
-  //         index += 18;
-  //       }else if(parseInt(index/9)==1){
-  //         index += 8;
-  //       }else if(parseInt(index/9)==2){
-  //         index -= 2;
-  //       }
-  //     }else if(parseInt(index/9)==2){
-  //       if(index%3==2){
-  //         index -= 2;
-  //       }else if(index%3==1){
-  //         index -= 10;
-  //       }else if(index%3==0){
-  //         index -= 18;
-  //       }
-  //     }else if(index%3==0){
-  //       if(parseInt(index/9)==2){
-  //         index -= 18;
-  //       }else if(parseInt(index/9)==1){
-  //         index -= 8;
-  //       }else if(parseInt(index/9)==0){
-  //         index += 2;
-  //       }
-  //     }
-  //   rotateNum--;
-  //   }
-  //   let cube;
-  //   for(let i=0;i<this.tempCubes.rubiksObject.length;i++)
-  //   {
-  //     if(this.tempCubes[i].cubeIndex)
-  //     {}
-  //   }
-  // }
 
   changeFaceColor = (pos,side,color) => {
     let tempObj = [...this.state.rubiksObject]
@@ -591,24 +521,10 @@ class App extends Component {
     }
   }
 
+  
   // Starts the solve process
-  beginSolve = (props) => {
+  beginSolve = () => {
     if(this.state.currentFunc !== "None") return;
-
-    // for(let i = 0; i < this.state.rubiksObject.length; i++){
-    //   // Logic to only render outer pieces since inside pieces aren't ever used
-    //   if((this.state.cubes[i].position.x === 0 || this.state.cubes[i].position.x === this.state.cubeDimension-1) ||
-    //       (this.state.cubes[i].position.y === 0 || this.state.cubes[i].position.y === this.state.cubeDimension-1)||
-    //       (this.state.cubes[i].position.z === 0 || this.state.cubes[i].position.z === this.state.cubeDimension-1)){
-        
-    //     console.log("i:", i);
-    //     console.log(this.state.cubes[i]);
-    //   } 
-    //   else
-    //   {
-    //     console.log("inner");
-    //   }
-    // }
 
     /**
       * F面, 白色
@@ -622,11 +538,9 @@ class App extends Component {
     {
       if(this.state.cubes[i].position.y === 0)
       {
-        //  console.log("pos x: ",this.state.cubes[i].position.x, "y: ", this.state.cubes[i].position.y, "z: ", this.state.cubeDimension-1-this.state.cubes[i].position.z)
-        //  console.log("color: ", this.colorJudge(this.state.cubes[i].material[3].color))
-         var x = this.state.cubes[i].position.x;
-         var y = this.state.cubeDimension-1-this.state.cubes[i].position.z;
-         F[y][x] = this.colorJudge(this.state.cubes[i].material[3].color);
+        var x = this.state.cubes[i].position.x;
+        var y = this.state.cubeDimension-1-this.state.cubes[i].position.z;
+        F[y][x] = this.colorJudge(this.state.cubes[i].material[3].color);
       }
     }
     // console.log(F);
@@ -741,9 +655,7 @@ class App extends Component {
          L[z][y] = this.colorJudge(this.state.cubes[i].material[1].color);
       }
     }
-    // console.log(L);
-
-    
+    // console.log(L);    
 
     let cubeToSeq = "";
     var group = [U,R,F,D,L,B]
@@ -768,41 +680,43 @@ class App extends Component {
     }
     console.log("!!Sequence: ", cubeToSeq);
     
-    // $.ajax({
-    //   url: '127.0.0.1:5000/solve',
-    //   data: {"state": cubeToSeq},
-    //   type: 'POST',
-    //   datatype: 'text',
-    //   success: function(response)
-    //   {
-    //     console.log("Solved!");
-    //   },
-    //   error: function(error)
-    //   {
-    //     console.log(error);
-    //   }
-
-    // });
-
     // Connect to server.
     var json;
     var send_data = {'state': cubeToSeq};
     let xhr = new XMLHttpRequest();
     let url = 'http://127.0.0.1:5000/solve';
+    // let url = 'http://101.200.148.163:5000/solve';
+    
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(JSON.stringify(cubeToSeq));  
+    var moveArray;
+    var self = this;
     xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){　　　　　　
+      if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
         json = JSON.parse(xhr.responseText)
         console.log("Solution: ", json)
+        moveArray = moveFuncs.moveStringToArray(json)
+        console.log("After: ", moveArray);
+        alert("Solved!")
+        self.setState({mySolve: moveArray, solveState : 0, autoPlay : true, playOne : false});
         
+        // console.log("moveArray:", self.state.mySolve);
       };
+      if(xhr.status === 404)
+      {
+        alert("Unconnected!")
+      }
     };
+    alert("Calculating...")
+    // let moveSet = []
+    // this.setState({mySolve: moveArray})
     
+    // moveSet = ["B'", "D", "R2", "D", "L", "F'", "U2", "R'", "D", "B", "L'", "F", "R2", "B", "R2", "U2", "F'", "U2", "F", "D2", "F2"]
     this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
     
-  }
+    // this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
+  };
 
   stopSolve = () => {
     this.setState({currentFunc : "None",solveState : -1,autoPlay : false, playOne : false, isVisible : false, hoverData : [], solveMoves : "", prevSet : [], moveSet : [],targetSolveIndex:-1,solvedSet:[]});
@@ -823,8 +737,14 @@ class App extends Component {
   }
 
   playOne = props => {
-    console.log(props.state.moveSet);
-    if(!props.state.moveSet.length) return;
+    // console.log(props.state.moveSet);
+    if(!props.state.moveSet.length) 
+    {
+      // props.state.moveSet = props.state.mySolve;  
+      return;
+    }
+    
+
     if((props.state.moveSet[0]===props.state.moveSet[1]||props.state.moveSet[1]==="stop'")&&!props.state.autoPlay){
         props.setState({
             autoPlay:true,
@@ -974,34 +894,6 @@ class App extends Component {
       }
     };
     
-    // for(let i = 0;i<9;i++)
-    // {
-    //   console.log("i", i)
-    //   this.colorJudge(cubes[i].material[0].color)
-    //   this.colorJudge(cubes[i].material[1].color)
-    //   this.colorJudge(cubes[i].material[2].color)
-    //   this.colorJudge(cubes[i].material[3].color)
-    //   this.colorJudge(cubes[i].material[4].color)
-    //   this.colorJudge(cubes[i].material[5].color)
-    //   /*
-    //   console.log(cubes[i].material[0].color)
-    //   console.log(cubes[i].material[1].color)
-    //   console.log(cubes[i].material[2].color)
-    //   console.log(cubes[i].material[3].color)
-    //   console.log(cubes[i].material[4].color)
-    //   console.log(cubes[i].material[5].color)
-    //   */
-    // }
-    
-    // for(let j=0;j<9;j++)
-    // {
-    //   /*if(White.equals(cubes[i].material[3].color))
-    //   {
-    //     console.log('U')
-    //   }*/
-    //   // console.log("j",j)
-    //   this.colorJudge(cubes[j].material[3].color)
-    // }
 
     this.setState({cubes,reload : false});
     // console.log(cubes)
@@ -1571,6 +1463,7 @@ class App extends Component {
               }
 
               moveLog = moveArray.join(" ");
+
               this.setState({undoIndex:0,moveLog});
             }
           }
@@ -1585,7 +1478,7 @@ class App extends Component {
               let solveMoves = this.state.solveMoves;
               let solveState = this.state.solveState;
               let end = this.state.end;
-
+              
 
               if(typeof(this.state.moveSet[0][0])==='number') {
                 //console.log("changing speed");
@@ -1596,7 +1489,6 @@ class App extends Component {
               }
               else{
                 let moveData = moveFuncs.parseMoveArray(this.state.moveSet);
-
 
                 if(moveData){
                   let obj = cube.rotateCubeFace(...moveData,blockMoveLog,moveLog,solveMoves,end,solveState);
@@ -1610,17 +1502,18 @@ class App extends Component {
             else{
               this.setState({currentFunc : "None",moves : 0});
             }
-            
           }
           else if (this.state.currentFunc==="Solving"||this.state.currentFunc==="Algorithms"){
             
             // Place holder for full solve testing
             if(this.state.autoTarget && !this.state.autoPlay && !this.state.autoRewind) {
+              // console.log("Place holder");
               this.setState({autoTarget:false},()=>this.reloadTurnedPieces('check'))
             }
 
             // If playone or autoplay is true, progress accordingly
             else if(this.state.playOne){
+              console.log("playOne")
               let cD = this.state.cubeDimension;
               let tempRubiks = this.state.rubiksObject;
               let blockMoveLog = this.state.blockMoveLog;
@@ -1630,7 +1523,7 @@ class App extends Component {
               let end = this.state.end;
               let solveState = this.state.solveState;
               let obj = {};
-
+              
               if(typeof(moveSet[0][0])==='number') {
                 this.changeSpeed(...moveSet[0],true);
                 moveSet.shift();
@@ -1659,7 +1552,6 @@ class App extends Component {
                   obj.solvedSetIndex = this.state.solvedSetIndex+1;
                 }
 
-                //console.log(obj);
               }
               this.setState(obj);
             }
@@ -1667,6 +1559,8 @@ class App extends Component {
             else if(this.state.moveSet.length){
               let moveSet = this.state.moveSet;
               let obj = {};
+              
+              
               if(typeof(moveSet[0][0])==='number') {
                 //console.log("changing speed");
                 this.changeSpeed(...moveSet[0],true);
@@ -1681,8 +1575,9 @@ class App extends Component {
               }
               if(obj.length){
                 this.setState({obj});
-              }   
+              }
             }
+
           }
 
           else if(this.state.currentFunc==="Color Picker"){
@@ -1692,7 +1587,8 @@ class App extends Component {
             this.reset();
           }
           else {
-            if(this.state.moveSet.length){
+            if(this.state.moveSet.length)
+            {
               let cD = this.state.cubeDimension;
               let tempRubiks = this.state.rubiksObject;
               let blockMoveLog = this.state.blockMoveLog;
@@ -1700,7 +1596,6 @@ class App extends Component {
               let solveMoves = this.state.solveMoves;
               let solveState = this.state.solveState;
               let end = this.state.end;
-
 
               if(typeof(this.state.moveSet[0][0])==='number') {
                 //console.log("changing speed");
@@ -1721,8 +1616,7 @@ class App extends Component {
                   this.setState(obj);
                 }
               }
-
-            } 
+            }
             else{
               this.setState({currentFunc:"None"}); 
             }
