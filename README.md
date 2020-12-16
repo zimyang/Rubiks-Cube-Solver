@@ -10,7 +10,8 @@ After installation of NodeJS and npm, install package using package.json in the 
 Start the client 
 `npm start`
 
-cd to ./rubiksCubeServer and run the server by
+cd to ./rubiksCubeServer
+and run the server by
 `python3 app.py`
 
 
