@@ -60,7 +60,7 @@ class SolverUI extends Component {
     render(){
         
         let solverSet = [];
-        let defaultSolver = this.props.state.solveOnce?"Loading, please wait...":"Already Solved";
+        let defaultSolver = this.props.state.solveOnce?"Already Solved":"Loading, please wait...";
         let defaultMessage = this.props.state.currentFunc==="Solving"?defaultSolver:"None Selected";
         let jumperButtons = [<div onClick={(e)=>preSetTarget(e,this.props,setTarget)} id={0} className="solveMoveDiv jumper" key={-1}>Top</div>];
         !this.props.state.solvedSet.length?

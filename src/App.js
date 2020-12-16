@@ -543,6 +543,7 @@ class App extends Component {
         F[y][x] = this.colorJudge(this.state.cubes[i].material[3].color);
       }
     }
+    
     // console.log(F);
 
     /**
@@ -699,8 +700,9 @@ class App extends Component {
         moveArray = moveFuncs.moveStringToArray(json)
         console.log("After: ", moveArray);
         alert("Solved!")
-        self.setState({mySolve: moveArray, solveState : 0, autoPlay : true, playOne : false});
         
+        self.setState({mySolve: moveArray, solveState : 0, autoPlay : true, playOne : false});
+        self.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true, moveArray: moveArray});
         // console.log("moveArray:", self.state.mySolve);
       };
       if(xhr.status === 404)
@@ -709,11 +711,12 @@ class App extends Component {
       }
     };
     alert("Calculating...")
+    this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
     // let moveSet = []
     // this.setState({mySolve: moveArray})
     
     // moveSet = ["B'", "D", "R2", "D", "L", "F'", "U2", "R'", "D", "B", "L'", "F", "R2", "B", "R2", "U2", "F'", "U2", "F", "D2", "F2"]
-    this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
+    
     
     // this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
   };
@@ -744,7 +747,6 @@ class App extends Component {
       return;
     }
     
-
     if((props.state.moveSet[0]===props.state.moveSet[1]||props.state.moveSet[1]==="stop'")&&!props.state.autoPlay){
         props.setState({
             autoPlay:true,

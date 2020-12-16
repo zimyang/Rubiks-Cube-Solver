@@ -16,6 +16,17 @@ class SolverUI extends Component {
         super(props);   
     }
 
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.moveSet!==this.props.mySolve)
+        {
+            this.setState({
+                moveSet: this.props.mySolve
+            });
+        }
+    }
+
+
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.state.autoRewind===true && nextProps.state.solvedSetIndex >= nextProps.state.targetSolveIndex) {
             //console.log("attempting rewind");
@@ -63,7 +74,7 @@ class SolverUI extends Component {
         let prevSet = this.props.state.prevSet;
         let moveSet = this.props.state.moveSet;
         let mySolve = this.props.state.mySolve;
-        solverMain(state,state.rubiksObject);
+        
         let defaultSolver = this.props.state.solveOnce?"Already Solved":"Loading, please wait...";
         let defaultMessage = this.props.state.currentFunc==="Solving"?defaultSolver:"None Selected";
         let jumperButtons = [<div onClick={(e)=>preSetTarget(e,this.props,setTarget)} id={0} className="solveMoveDiv jumper" key={-1}>Top</div>];

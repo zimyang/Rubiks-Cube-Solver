@@ -146,6 +146,7 @@ function generateAllSolveMoves(state,rubiksObject){
     //     }
     //   }
     // }
+
     /**
      * Key point
      * 之后的moveSet符合需求
@@ -155,8 +156,6 @@ function generateAllSolveMoves(state,rubiksObject){
     var moveSet = tempState.mySolve;
     
     console.log("moveSet: ", moveSet);
-
-    console.log("1");
     
     if(moveSet[0]==="stop'"&&moveSet[1]==="stop'"&&moveSet.length===2) moveSet = [];
   
