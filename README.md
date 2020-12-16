@@ -8,7 +8,8 @@ Rubiks-Cube-Solver can solve N x N cubes with Kociemba algorithm, where N ranges
 
 `npm install`
 
-2.Start the client
+2.Start the client.
+
 `npm start`
 
 3.cd to ./rubiksCubeServer
