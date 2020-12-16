@@ -11,7 +11,9 @@ Start the client
 `npm start`
 
 cd to ./rubiksCubeServer
+
 and run the server by
+
 `python3 app.py`
 
 
