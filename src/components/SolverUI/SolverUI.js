@@ -17,14 +17,14 @@ class SolverUI extends Component {
     }
 
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.moveSet!==this.props.mySolve)
-        {
-            this.setState({
-                moveSet: this.props.mySolve
-            });
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if(nextProps.moveSet!==this.props.mySolve)
+    //     {
+    //         this.setState({
+    //             moveSet: this.props.mySolve
+    //         });
+    //     }
+    // }
 
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -70,11 +70,21 @@ class SolverUI extends Component {
     render(){
         
         let solverSet = [];
-        let state = this.props.state;
+        
         let prevSet = this.props.state.prevSet;
         let moveSet = this.props.state.moveSet;
-        let mySolve = this.props.state.mySolve;
-        
+        let mySolve;
+        let easyMode = this.props.state.easyMode;
+        console.log("easyMode: ", easyMode);
+        if(easyMode===false)
+        {
+            this.props.state.moveSet = this.props.state.mySolve;
+            moveSet = this.props.state.mySolve;
+        }
+        else
+        {
+            mySolve = this.props.state.moveSet;
+        }
         let defaultSolver = this.props.state.solveOnce?"Already Solved":"Loading, please wait...";
         let defaultMessage = this.props.state.currentFunc==="Solving"?defaultSolver:"None Selected";
         let jumperButtons = [<div onClick={(e)=>preSetTarget(e,this.props,setTarget)} id={0} className="solveMoveDiv jumper" key={-1}>Top</div>];
@@ -83,15 +93,15 @@ class SolverUI extends Component {
         
         !this.props.state.mySolve.length?
         solverSet.push(defaultMessage):
-        this.props.state.mySolve.forEach((el,i)=>el===this.props.state.mySolve[i+1]?
+        this.props.state.moveSet.forEach((el,i)=>el===this.props.state.moveSet[i+1]?
             <></>:
             el==="stop'"? 
             (solverSet.push(<div key={i} style={{width:"100%"}}><hr key={i} style={{border:"1px solid lightblue",marginLeft:"5px"}}></hr>{jumperButtons.length===1?"Edges: ":"3x3: "}</div>),jumperButtons.push(
                 jumperButtons.length===1?<div onClick={(e)=>preSetTarget(e,this.props,setTarget)} id={i+1} className="solveMoveDiv jumper" key={i}>Edge</div>:
                 <div onClick={(e)=>preSetTarget(e,this.props,setTarget)} id={i+1} className="solveMoveDiv jumper" key={i}>3x3</div>
             )):
-            el===this.props.state.mySolve[i-1]?
-                i===this.props.state.solvedSetIndex||(i===this.props.state.solvedSetIndex+1&&el===this.props.state.mySolve[i-1])?
+            el===this.props.state.moveSet[i-1]?
+                i===this.props.state.solvedSetIndex||(i===this.props.state.solvedSetIndex+1&&el===this.props.state.moveSet[i-1])?
                     solverSet.push(<div 
                         id={i-1} 
                         className="solveMoveDiv nextSolveIndex" 
@@ -103,7 +113,7 @@ class SolverUI extends Component {
                         className="solveMoveDiv" 
                         key={i}>{el.replace(`0`+el[1],el[1]).replace("'","")+"2"}
                     </div>):
-                i===this.props.state.solvedSetIndex||(i===this.props.state.solvedSetIndex+1&&el===this.props.state.mySolve[i-1])?
+                i===this.props.state.solvedSetIndex||(i===this.props.state.solvedSetIndex+1&&el===this.props.state.moveSet[i-1])?
                     solverSet.push(<div 
                         id={i} 
                         className="solveMoveDiv nextSolveIndex" 

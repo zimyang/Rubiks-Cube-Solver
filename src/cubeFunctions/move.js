@@ -51,53 +51,30 @@ const moveFuncs = {
     // Converts move string to move array
     // handle move short hand characters. ex: fx => 01Fx 02Fx; x = "" or "'" or "2"
     moveStringToArray : function (str) {
+      let tempArray = str.split(" ");
+      let moveArray = [];
+
+      // Run through split string and create duplicates where needed
+      // Handle other short hands
+      for(let i = 0; i < tempArray.length;i++){
+          if(tempArray[i].length === 4 && tempArray[i].slice(3,4)==="2") {
+              let tempMove = tempArray[i].slice(0,3);
+              moveArray.push(tempMove);
+              moveArray.push(tempMove);
+          }
+          else {
+              moveArray.push(tempArray[i]);
+          }
+      }
+      return moveArray;
+  },
+    moveStringToArrayMy : function (str) {
        
-        // let tempArray = str.split(" ");
-        // let moveArray = [];
-        // if(str.length===0) return moveArray;
-        // // Run through split string and create duplicates where needed
-        // // Handle other short hands
-
-        // for(let i = 0; i < tempArray.length;i++){
-        //     if(tempArray[i].length === 4 && tempArray[i].slice(3,4)==="2") {
-        //         let tempMove = tempArray[i].slice(0,3);
-        //         moveArray.push(tempMove);
-        //         moveArray.push(tempMove);
-        //         console.log("if: ", tempMove)
-
-        //     }
-        //     else {
-        //       if(tempArray[i].substr(-1)==="2")
-        //       {
-        //         let len = tempArray[i].length;
-        //         let tempstep = tempArray[i].substring(0,len-1);
-        //         var tempMove;
-        //         if(!isNaN(parseInt(tempArray[i].substr(0,1))))
-        //         {
-        //           tempMove = "0" + tempstep;
-        //         }
-        //         else
-        //         {
-        //           tempMove = "01" + tempstep;
-        //         }
-
-        //         moveArray.push(tempMove);
-        //         moveArray.push(tempMove);
-        //       }
-        //       else
-        //       {
-        //         let tempMove = "01" + tempArray[i];
-        //         moveArray.push(tempMove);
-        //       }
-        //     }
-        // }
-        // return moveArray;
         let tempArray = str.split(" ");
         let moveArray = [];
 
         // Run through split string and create duplicates where needed
         // Handle other short hands
-
 
         for(let i=0; i< tempArray.length;i++)
         {

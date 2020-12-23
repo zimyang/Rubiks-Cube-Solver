@@ -37,13 +37,20 @@ const Navbar = props => {
 
                 <li className="settingsDropDownItem" onClick={() => props.changeSettings('displayHints')}>
 
-
                   <div className="checkbox-inline">
                       <input type="checkbox" defaultChecked data-toggle="toggle" onClick={() => props.changeSettings('displayHints')}></input>
                   </div>
               Move Hints
 
             </li>
+
+            <li className="settingsDropDownItem" onClick={() => props.changeSettings('selectMode')}>
+              <div className="checkbox-inline">
+                <input type="checkbox" defaultChecked data-toggle="toggle" onClick={() => props.changeSettings('selectMode')}></input>
+              </div>
+                Easy mode
+            </li>
+
 
               </ul>
 

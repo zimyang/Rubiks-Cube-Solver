@@ -110,7 +110,6 @@ class App extends Component {
     solveMoves : "",      // Keeps track of moves used during solve
     solvedSet: [],
     mySolve: [],
-    bark: false,
     solvedSetIndex: 0,
     facePosX : null,
     facePosY : null,
@@ -131,6 +130,7 @@ class App extends Component {
     showControls: false,   // Setting for move controls
     showHints: true,
     showGuideArrows: true,
+    easyMode: true,
     activeDragsInput: 0,  // Keeps track of draggable input
     deltaPositionInput: {
       x: 100, y: 100
@@ -525,8 +525,13 @@ class App extends Component {
   // Starts the solve process
   beginSolve = () => {
     if(this.state.currentFunc !== "None") return;
-
-    /**
+    if(this.state.easyMode)
+    {
+      this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
+    }
+    else
+    {
+      /**
       * F面, 白色
     */
     let F = new Array(this.state.cubeDimension)
@@ -681,37 +686,40 @@ class App extends Component {
     }
     console.log("!!Sequence: ", cubeToSeq);
     
-    // Connect to server.
-    var json;
-    var send_data = {'state': cubeToSeq};
-    let xhr = new XMLHttpRequest();
-    let url = 'http://127.0.0.1:5000/solve';
-    // let url = 'http://101.200.148.163:5000/solve';
-    
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(JSON.stringify(cubeToSeq));  
-    var moveArray;
-    var self = this;
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
-        json = JSON.parse(xhr.responseText)
-        console.log("Solution: ", json)
-        moveArray = moveFuncs.moveStringToArray(json)
-        console.log("After: ", moveArray);
-        alert("Solved!")
-        
-        self.setState({mySolve: moveArray, solveState : 0, autoPlay : true, playOne : false});
-        self.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true, moveArray: moveArray});
-        // console.log("moveArray:", self.state.mySolve);
+      var json;
+      var send_data = {'state': cubeToSeq};
+      let xhr = new XMLHttpRequest();
+      let url = 'http://127.0.0.1:5000/solve';
+      // let url = 'http://101.200.148.163:5000/solve';
+      
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send(JSON.stringify(cubeToSeq));  
+      var moveArray;
+      var self = this;
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && ( xhr.status === 200 || xhr.status === 304 )){
+          json = JSON.parse(xhr.responseText)
+          console.log("Solution: ", json)
+          moveArray = moveFuncs.moveStringToArrayMy(json)
+          console.log("After: ", moveArray);
+          alert("Solved!")
+          
+          self.setState({currentFunc : "Solving", mySolve: moveArray, solveState : 0, autoPlay : true, playOne : false});
+          //self.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true, moveArray: moveArray});
+          // console.log("moveArray:", self.state.mySolve);
+        };
+        if(xhr.status === 404)
+        {
+          alert("Unconnected!")
+        }
       };
-      if(xhr.status === 404)
-      {
-        alert("Unconnected!")
-      }
-    };
-    alert("Calculating...")
-    this.setState({currentFunc : "Solving", solveState : 0,autoPlay : false, playOne : false, solveOnce : true});
+      alert("Calculating...")
+    }
+    
+    
+    
+    
     // let moveSet = []
     // this.setState({mySolve: moveArray})
     
@@ -741,11 +749,7 @@ class App extends Component {
 
   playOne = props => {
     // console.log(props.state.moveSet);
-    if(!props.state.moveSet.length) 
-    {
-      // props.state.moveSet = props.state.mySolve;  
-      return;
-    }
+    if(!props.state.moveSet.length) return;
     
     if((props.state.moveSet[0]===props.state.moveSet[1]||props.state.moveSet[1]==="stop'")&&!props.state.autoPlay){
         props.setState({
@@ -916,6 +920,9 @@ class App extends Component {
         break;
       case 'displayHints':
         this.setState({showHints:!this.state.showHints});
+        break;
+      case 'selectMode':
+        this.setState({easyMode:!this.state.easyMode});
         break;
       default:
         console.log("Invalid Setting");
