@@ -17,6 +17,7 @@ and run the server by
 
 `python3 app.py`
 
+
 ### Examle
 Cube 3x3
 
