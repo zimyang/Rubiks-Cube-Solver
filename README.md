@@ -17,4 +17,12 @@ and run the server by
 
 `python3 app.py`
 
+### Examle
+Cube 3x3
+![Cube 3x3](https://github.com/zimyang/Rubiks-Cube-Solver/blob/master/video/3x3%20Cube.gif)
 
+Cube 4x4
+![Cube 4x4](https://github.com/zimyang/Rubiks-Cube-Solver/blob/master/video/4x4%20Cube.gif)
+
+Cube 5x5
+![Cube 5x5](https://github.com/zimyang/Rubiks-Cube-Solver/blob/master/video/5x5%20Cube.gif)
